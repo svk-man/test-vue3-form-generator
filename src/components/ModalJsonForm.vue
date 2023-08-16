@@ -2,22 +2,35 @@
   <div class="modal" v-show="isOpened">
     <div class="modal__content">
       <span class="modal__close" @click="closeModal" @keyup="closeModal">&times;</span>
-      <p>Some text in the Modal..</p>
+      <p v-html="formHtml"></p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 defineComponent({
   name: 'ModalJsonForm',
 });
 
-const isOpened = ref(true);
+const emit = defineEmits(['closeModal']);
+
+const props = defineProps({
+  formJson: {
+    required: true,
+    type: String,
+  },
+  isOpened: {
+    required: true,
+    type: Boolean,
+  },
+});
+
+const formHtml = computed(() => props.formJson.toString());
 
 function closeModal() {
-  isOpened.value = false;
+  emit('closeModal');
 }
 </script>
 
@@ -52,5 +65,4 @@ function closeModal() {
     }
   }
 }
-
 </style>

@@ -20,7 +20,7 @@ const emit = defineEmits(['submit']);
 const formJson = ref('');
 
 function onSubmit() {
-  emit('submit', formJson);
+  emit('submit', formJson.value);
 }
 </script>
 

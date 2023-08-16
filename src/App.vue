@@ -1,10 +1,13 @@
 <template>
   <FormJsonEditor @submit="generateForm" />
-  <ModalJsonForm />
+  <ModalJsonForm
+    :formJson="formJson"
+    :isOpened="isModalOpened"
+    @closeModal="closeModal"/>
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import FormJsonEditor from './components/FormJsonEditor.vue';
 import ModalJsonForm from './components/ModalJsonForm.vue';
 
@@ -15,8 +18,20 @@ defineComponent({
   },
 });
 
-function generateForm(formJson: string) {
-  console.log(formJson);
+const formJson = ref('');
+const isModalOpened = ref(false);
+
+function openModal() {
+  isModalOpened.value = true;
+}
+
+function closeModal() {
+  isModalOpened.value = false;
+}
+
+function generateForm(newFormJson: string) {
+  formJson.value = newFormJson;
+  openModal();
 }
 </script>
 
