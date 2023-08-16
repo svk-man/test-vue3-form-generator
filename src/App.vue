@@ -1,5 +1,5 @@
 <template>
-  <FormJsonEditor />
+  <FormJsonEditor @submit="generateForm" />
 </template>
 
 <script setup lang="ts">
@@ -12,6 +12,10 @@ defineComponent({
     FormJsonEditor,
   },
 });
+
+function generateForm(formJson: string) {
+  console.log(formJson);
+}
 </script>
 
 <style lang="scss">

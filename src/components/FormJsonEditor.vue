@@ -1,5 +1,5 @@
 <template>
-  <form class="form-json">
+  <form class="form-json" @submit.prevent="onSubmit">
     <label for="form-json" class="form-json__label">Введите JSON-представление формы:
       <textarea id="form-json" class="form-json__textarea"
         cols="30" rows="10" v-model="formJson"></textarea>
@@ -15,7 +15,13 @@ defineComponent({
   name: 'FormJsonEditor',
 });
 
+const emit = defineEmits(['submit']);
+
 const formJson = ref('');
+
+function onSubmit() {
+  emit('submit', formJson);
+}
 </script>
 
 <style scoped lang="scss">
