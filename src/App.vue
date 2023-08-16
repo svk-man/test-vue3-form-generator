@@ -1,10 +1,12 @@
 <template>
   <FormJsonEditor @submit="generateForm" />
+  <ModalJsonForm />
 </template>
 
 <script setup lang="ts">
 import { defineComponent } from 'vue';
 import FormJsonEditor from './components/FormJsonEditor.vue';
+import ModalJsonForm from './components/ModalJsonForm.vue';
 
 defineComponent({
   name: 'App',
