@@ -27,7 +27,30 @@ const props = defineProps({
   },
 });
 
-const formHtml = computed(() => props.formJson.toString());
+type ListDataItem = {
+  key: number,
+  value: string
+};
+
+type FormJsonItem = {
+  type: 'container' | 'input' | 'datepicker' | 'list',
+  code: string,
+  parent: string,
+  listdata: ListDataItem[],
+  value: string
+}
+
+const formHtml = computed(() => {
+  const result = '';
+
+  if (props.formJson) {
+    JSON.parse(props.formJson).forEach((formJsonItem: FormJsonItem) => {
+      console.log(formJsonItem);
+    });
+  }
+
+  return result;
+});
 
 function closeModal() {
   emit('closeModal');
