@@ -2,13 +2,16 @@
   <div class="modal" v-show="isOpened">
     <div class="modal__content">
       <span class="modal__close" @click="closeModal" @keyup="closeModal">&times;</span>
-      <p>{{ formTree }}</p>
+      <FormTree :node="formTree"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineComponent, computed } from 'vue';
+import FormTree from './FormTree.vue';
+import FormJsonItem from '../types/FormJsonItem';
+import TreeNode from '../types/TreeNode';
 
 defineComponent({
   name: 'ModalJsonForm',
@@ -27,32 +30,17 @@ const props = defineProps({
   },
 });
 
-type ListDataItem = {
-  key: number,
-  value: string
-};
-
-type FormJsonItem = {
-  type: 'container' | 'input' | 'datepicker' | 'list',
-  code: string,
-  parent: string,
-  listdata: ListDataItem[],
-  value: string
-}
-
-type TreeNode = {
-  type: 'container' | 'input' | 'datepicker' | 'list',
-  code: string,
-  listdata: ListDataItem[],
-  value: string | null,
-  children: TreeNode[]
-}
-
-const formTree = computed(() => {
+const formTree = computed((): TreeNode => {
   const formJson = JSON.parse(props.formJson);
   const root = formJson.find((formJsonItem: FormJsonItem) => formJsonItem.parent === null);
   if (!root) {
-    return '';
+    return {
+      type: 'container',
+      code: 'k1',
+      listdata: [],
+      value: null,
+      children: [],
+    };
   }
 
   function getTreeNode(node: TreeNode) {
