@@ -22,6 +22,13 @@ defineProps({
 .form-tree {
   padding: 10px;
   &__item {
+    &-wrapper {
+      padding: 3px 0;
+    }
+    &--input {
+      box-sizing: border-box;
+      width: 100%;
+    }
     &--container {
       padding: 30px;
       margin: 6px 0;

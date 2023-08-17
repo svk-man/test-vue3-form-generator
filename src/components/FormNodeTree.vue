@@ -1,6 +1,15 @@
 <template>
-  <div class="form-tree__item">
-    <span class="form-tree__item-label">{{ node?.code }}</span>
+  <div class="form-tree__item-wrapper">
+    <label v-if="node?.type === 'input'"
+      :for="node.code"
+      class="form-tree__item-label">
+      {{ node.code }}
+      <input
+        class="form-tree__item form-tree__item--input"
+        :id="node.code" type="text" :value="node.value">
+    </label>
+    <span v-else-if="node?.type === 'container'"
+      class="form-tree__item-label">{{ node?.code }}</span>
 
     <div class="form-tree__item form-tree__item--container"
       v-if="node?.children && node?.children.length">
