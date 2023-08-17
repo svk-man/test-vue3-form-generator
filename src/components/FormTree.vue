@@ -1,8 +1,6 @@
 <template>
-  <div class="tree">
-    <ul class="tree-list">
-      <FormNodeTree :node="node"></FormNodeTree>
-    </ul>
+  <div class="form-tree">
+    <FormNodeTree :node="node"></FormNodeTree>
   </div>
 </template>
 
@@ -20,9 +18,15 @@ defineProps({
 });
 </script>
 
-<style>
-.tree-list ul {
-  padding-left: 16px;
-  margin: 6px 0;
+<style lang="scss">
+.form-tree {
+  padding: 10px;
+  &__item {
+    &--container {
+      padding: 30px;
+      margin: 6px 0;
+      border: 1px solid black;
+    }
+  }
 }
 </style>

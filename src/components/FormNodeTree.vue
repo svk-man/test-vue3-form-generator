@@ -1,11 +1,12 @@
 <template>
-  <li class="node-tree">
-    <span class="label">{{ node?.code }}</span>
+  <div class="form-tree__item">
+    <span class="form-tree__item-label">{{ node?.code }}</span>
 
-    <ul v-if="node?.children && node?.children.length">
+    <div class="form-tree__item form-tree__item--container"
+      v-if="node?.children && node?.children.length">
       <FormNodeTree v-for="child in node?.children" :node="child" :key="child.code"/>
-    </ul>
-  </li>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
