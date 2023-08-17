@@ -23,15 +23,16 @@ defineProps({
   padding: 10px;
   &__item {
     &-wrapper {
-      padding: 3px 0;
+      padding: 5px 0;
     }
     &--input,
-    &--datepicker {
+    &--datepicker,
+    &--list {
       box-sizing: border-box;
       width: 100%;
     }
     &--container {
-      padding: 30px;
+      padding: 25px;
       margin: 6px 0;
       border: 1px solid black;
     }

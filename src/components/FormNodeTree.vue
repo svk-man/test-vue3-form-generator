@@ -16,6 +16,19 @@
         class="form-tree__item form-tree__item--datepicker"
         :id="node.code" type="date" :value="node.value">
     </label>
+    <label v-if="node?.type === 'list'"
+      :for="node.code"
+      class="form-tree__item-label">
+      {{ node.code }}
+      <select
+        :id="node.code"
+        class="form-tree__item form-tree__item--list">
+          <option v-for="listitem in node.listdata"
+            :key="listitem.key">
+            {{ listitem.value }}
+          </option>
+      </select>
+    </label>
     <span v-else-if="node?.type === 'container'"
       class="form-tree__item-label">{{ node?.code }}</span>
 
