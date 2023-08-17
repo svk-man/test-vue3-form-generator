@@ -8,7 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, computed } from 'vue';
+import {
+  defineComponent,
+  computed, provide, reactive,
+} from 'vue';
 import FormTree from './FormTree.vue';
 import FormJsonItem from '../types/FormJsonItem';
 import {
@@ -47,7 +50,7 @@ const formTree = computed((): TreeNode => {
   }
 
   function getTreeNode(node: TreeNode) {
-    const copyNode = JSON.parse(JSON.stringify(node));
+    const copyNode = copyTreeNode(node);
 
     formJson.forEach((formJsonItem: FormJsonItem) => {
       if (formJsonItem.parent !== null && formJsonItem.parent === copyNode.code) {
@@ -74,6 +77,32 @@ const formTree = computed((): TreeNode => {
 
   return tree;
 });
+
+function getFormTreeModel(): { [key: string]: string; } {
+  if (!props.formJson) {
+    return {};
+  }
+
+  const formJson = JSON.parse(props.formJson);
+  const result: { [key: string]: string; } = {};
+  formJson.forEach((formJsonItem: FormJsonItem) => {
+    result[formJsonItem.code] = formJsonItem.value;
+  });
+
+  return result;
+}
+
+const formTreeModel = reactive(getFormTreeModel());
+
+const updateFormTreeModel = (code: string, value: string) => {
+  const newFormTreeModel = JSON.parse(JSON.stringify(formTreeModel.value));
+  newFormTreeModel[code] = value;
+
+  formTreeModel.value = newFormTreeModel;
+};
+
+provide('formTreeModel', formTreeModel);
+provide('updateFormTreeModel', updateFormTreeModel);
 
 function closeModal() {
   emit('closeModal');

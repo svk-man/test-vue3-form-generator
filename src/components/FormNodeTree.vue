@@ -6,7 +6,8 @@
       {{ node.code }}
       <input
         class="form-tree__item form-tree__item--input"
-        :id="node.code" type="text" :value="node.value">
+        :id="node.code" type="text" :value="node.value"
+        @change="changeFormTreeModel(node.code, node.value)">
     </label>
     <label v-if="node?.type === 'datepicker'"
       :for="node.code"
@@ -40,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, inject } from 'vue';
 import { TreeNode } from '@/types/TreeNode';
 
 defineComponent({
@@ -50,4 +51,11 @@ defineComponent({
 defineProps({
   node: Object as PropType<TreeNode>,
 });
+
+const updateFormTreeModel = inject('updateFormTreeModel');
+function changeFormTreeModel(code: string, value: string | null) {
+  if (value) {
+    updateFormTreeModel(code, value);
+  }
+}
 </script>
