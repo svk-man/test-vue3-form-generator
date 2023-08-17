@@ -2,7 +2,7 @@
   <div class="modal" v-show="isOpened">
     <div class="modal__content">
       <span class="modal__close" @click="closeModal" @keyup="closeModal">&times;</span>
-      <p v-html="formHtml"></p>
+      <p>{{ formTree }}</p>
     </div>
   </div>
 </template>
@@ -40,16 +40,56 @@ type FormJsonItem = {
   value: string
 }
 
-const formHtml = computed(() => {
-  const result = '';
+type TreeNode = {
+  type: 'container' | 'input' | 'datepicker' | 'list',
+  code: string,
+  listdata: ListDataItem[],
+  value: string | null,
+  children: TreeNode[]
+}
 
-  if (props.formJson) {
-    JSON.parse(props.formJson).forEach((formJsonItem: FormJsonItem) => {
-      console.log(formJsonItem);
-    });
+const formTree = computed(() => {
+  const formJson = JSON.parse(props.formJson);
+  const root = formJson.find((formJsonItem: FormJsonItem) => formJsonItem.parent === null);
+  if (!root) {
+    return '';
   }
 
-  return result;
+  function getTreeNode(node: TreeNode) {
+    const copyNode = JSON.parse(JSON.stringify(node));
+
+    formJson.forEach((formJsonItem: FormJsonItem) => {
+      if (formJsonItem.parent !== null && formJsonItem.parent === copyNode.code) {
+        const childNode = {
+          type: formJsonItem.type,
+          code: formJsonItem.code,
+          listdata: formJsonItem.listdata,
+          value: formJsonItem.value,
+          children: [],
+        };
+
+        if (formJsonItem.type === 'container') {
+          copyNode.children.push(getTreeNode(childNode));
+        } else {
+          copyNode.children.push(childNode);
+        }
+      }
+    });
+
+    return copyNode;
+  }
+
+  const tree: TreeNode = getTreeNode({
+    type: root.type,
+    code: root.code,
+    listdata: [],
+    value: null,
+    children: [],
+  });
+
+  console.dir(tree);
+
+  return tree;
 });
 
 function closeModal() {
