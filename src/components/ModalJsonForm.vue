@@ -11,7 +11,12 @@
 import { defineComponent, computed } from 'vue';
 import FormTree from './FormTree.vue';
 import FormJsonItem from '../types/FormJsonItem';
-import TreeNode from '../types/TreeNode';
+import {
+  copyTreeNode,
+  defaultTreeNode,
+  TreeNode,
+  TreeNodeType,
+} from '../types/TreeNode';
 
 defineComponent({
   name: 'ModalJsonForm',
@@ -31,16 +36,14 @@ const props = defineProps({
 });
 
 const formTree = computed((): TreeNode => {
+  if (!props.formJson) {
+    return copyTreeNode(defaultTreeNode);
+  }
+
   const formJson = JSON.parse(props.formJson);
   const root = formJson.find((formJsonItem: FormJsonItem) => formJsonItem.parent === null);
   if (!root) {
-    return {
-      type: 'container',
-      code: 'k1',
-      listdata: [],
-      value: null,
-      children: [],
-    };
+    return copyTreeNode(defaultTreeNode);
   }
 
   function getTreeNode(node: TreeNode) {
@@ -48,15 +51,15 @@ const formTree = computed((): TreeNode => {
 
     formJson.forEach((formJsonItem: FormJsonItem) => {
       if (formJsonItem.parent !== null && formJsonItem.parent === copyNode.code) {
-        const childNode = {
-          type: formJsonItem.type,
+        const childNode: TreeNode = {
+          type: formJsonItem.type as TreeNodeType,
           code: formJsonItem.code,
           listdata: formJsonItem.listdata,
           value: formJsonItem.value,
           children: [],
         };
 
-        if (formJsonItem.type === 'container') {
+        if (formJsonItem.type === TreeNodeType.Container) {
           copyNode.children.push(getTreeNode(childNode));
         } else {
           copyNode.children.push(childNode);
@@ -67,15 +70,7 @@ const formTree = computed((): TreeNode => {
     return copyNode;
   }
 
-  const tree: TreeNode = getTreeNode({
-    type: root.type,
-    code: root.code,
-    listdata: [],
-    value: null,
-    children: [],
-  });
-
-  console.dir(tree);
+  const tree: TreeNode = getTreeNode(copyTreeNode(defaultTreeNode));
 
   return tree;
 });

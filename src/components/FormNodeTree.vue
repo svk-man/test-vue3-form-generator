@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { defineComponent, PropType } from 'vue';
-import TreeNode from '@/types/TreeNode';
+import { TreeNode } from '@/types/TreeNode';
 
 defineComponent({
   name: 'FormNodeTree',
