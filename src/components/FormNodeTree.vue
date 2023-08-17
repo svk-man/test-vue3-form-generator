@@ -7,7 +7,7 @@
       <input
         class="form-tree__item form-tree__item--input"
         :id="node.code" type="text" :value="node.value"
-        @change="changeFormTreeModel(node.code, node.value)">
+        @input="changeFormTreeModel">
     </label>
     <label v-if="node?.type === 'datepicker'"
       :for="node.code"
@@ -52,10 +52,14 @@ defineProps({
   node: Object as PropType<TreeNode>,
 });
 
-const updateFormTreeModel = inject('updateFormTreeModel');
-function changeFormTreeModel(code: string, value: string | null) {
+const { formTreeModel, updateFormTreeModel }: any = inject('formTreeModel');
+
+function changeFormTreeModel(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const { id, value } = input;
   if (value) {
-    updateFormTreeModel(code, value);
+    console.log(formTreeModel);
+    console.log(updateFormTreeModel(id, value));
   }
 }
 </script>

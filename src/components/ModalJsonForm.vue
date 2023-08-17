@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import {
   defineComponent,
-  computed, provide, reactive,
+  computed, provide, ref, watch,
 } from 'vue';
 import FormTree from './FormTree.vue';
 import FormJsonItem from '../types/FormJsonItem';
@@ -78,7 +78,7 @@ const formTree = computed((): TreeNode => {
   return tree;
 });
 
-function getFormTreeModel(): { [key: string]: string; } {
+const getFormTreeModel = computed((): { [key: string]: string; } => {
   if (!props.formJson) {
     return {};
   }
@@ -90,9 +90,13 @@ function getFormTreeModel(): { [key: string]: string; } {
   });
 
   return result;
-}
+});
 
-const formTreeModel = reactive(getFormTreeModel());
+const formTreeModel = ref({});
+
+watch(getFormTreeModel, (newFormTreeModel) => {
+  formTreeModel.value = newFormTreeModel;
+});
 
 const updateFormTreeModel = (code: string, value: string) => {
   const newFormTreeModel = JSON.parse(JSON.stringify(formTreeModel.value));
@@ -101,11 +105,16 @@ const updateFormTreeModel = (code: string, value: string) => {
   formTreeModel.value = newFormTreeModel;
 };
 
-provide('formTreeModel', formTreeModel);
-provide('updateFormTreeModel', updateFormTreeModel);
+provide('formTreeModel', {
+  formTreeModel,
+  updateFormTreeModel,
+});
 
 function closeModal() {
   emit('closeModal');
+  Object.entries(formTreeModel.value).forEach((pair) => {
+    console.log(pair);
+  });
 }
 </script>
 
