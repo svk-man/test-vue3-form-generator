@@ -8,6 +8,14 @@
         class="form-tree__item form-tree__item--input"
         :id="node.code" type="text" :value="node.value">
     </label>
+    <label v-if="node?.type === 'datepicker'"
+      :for="node.code"
+      class="form-tree__item-label">
+      {{ node.code }}
+      <input
+        class="form-tree__item form-tree__item--datepicker"
+        :id="node.code" type="date" :value="node.value">
+    </label>
     <span v-else-if="node?.type === 'container'"
       class="form-tree__item-label">{{ node?.code }}</span>
 

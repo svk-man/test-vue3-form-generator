@@ -25,7 +25,8 @@ defineProps({
     &-wrapper {
       padding: 3px 0;
     }
-    &--input {
+    &--input,
+    &--datepicker {
       box-sizing: border-box;
       width: 100%;
     }
