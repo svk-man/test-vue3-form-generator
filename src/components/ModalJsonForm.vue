@@ -130,17 +130,22 @@ function closeModal() {
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.4);
   &__content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
+    position: relative;
     width: 80%;
+    margin: 5% auto;
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid #888;
+    background-color: #fefefe;
   }
   &__close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    transition: .3s;
     &:hover,
     &:focus {
       color: black;
