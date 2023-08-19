@@ -40,6 +40,10 @@ function isJson(json: string) {
 }
 
 function generateForm(newFormJson: string) {
+  if (!newFormJson.trim()) {
+    return;
+  }
+
   if (!isJson(newFormJson)) {
     alert('Невалидный JSON');
     return;
