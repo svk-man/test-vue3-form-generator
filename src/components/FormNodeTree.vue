@@ -15,7 +15,8 @@
       {{ node.code }}
       <input
         class="form-tree__item form-tree__item--datepicker"
-        :id="node.code" type="date" :value="node.value">
+        :id="node.code" type="date" :value="node.value"
+        @input="changeFormTreeModel">
     </label>
     <label v-if="node?.type === 'list'"
       :for="node.code"
@@ -23,7 +24,8 @@
       {{ node.code }}
       <select
         :id="node.code"
-        class="form-tree__item form-tree__item--list">
+        class="form-tree__item form-tree__item--list"
+        @change="changeFormTreeModel">
           <option v-for="listitem in node.listdata"
             :key="listitem.key">
             {{ listitem.value }}
@@ -52,14 +54,13 @@ defineProps({
   node: Object as PropType<TreeNode>,
 });
 
-const { formTreeModel, updateFormTreeModel }: any = inject('formTreeModel');
+const { updateFormTreeModel }: any = inject('formTreeModel');
 
 function changeFormTreeModel(event: Event) {
   const input = event.target as HTMLInputElement;
   const { id, value } = input;
   if (value) {
-    console.log(formTreeModel);
-    console.log(updateFormTreeModel(id, value));
+    updateFormTreeModel(id, value);
   }
 }
 </script>
