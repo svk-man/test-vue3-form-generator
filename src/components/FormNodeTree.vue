@@ -1,6 +1,6 @@
 <template>
   <div class="form-tree__item-wrapper">
-    <label v-if="node?.type === 'input'"
+    <label v-if="node?.type === TreeNodeType.Input"
       :for="node.code"
       class="form-tree__item-label">
       {{ node.code }}
@@ -9,7 +9,7 @@
         :id="node.code" type="text" :value="node.value"
         @input="changeFormTreeModel">
     </label>
-    <label v-if="node?.type === 'datepicker'"
+    <label v-if="node?.type === TreeNodeType.Datepicker"
       :for="node.code"
       class="form-tree__item-label">
       {{ node.code }}
@@ -18,7 +18,7 @@
         :id="node.code" type="date" :value="node.value"
         @input="changeFormTreeModel">
     </label>
-    <label v-if="node?.type === 'list'"
+    <label v-if="node?.type === TreeNodeType.List"
       :for="node.code"
       class="form-tree__item-label">
       {{ node.code }}
@@ -32,7 +32,7 @@
           </option>
       </select>
     </label>
-    <span v-else-if="node?.type === 'container'"
+    <span v-else-if="node?.type === TreeNodeType.Container"
       class="form-tree__item-label">{{ node?.code }}</span>
 
     <div class="form-tree__item form-tree__item--container"
@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { defineComponent, PropType, inject } from 'vue';
-import { TreeNode } from '@/types/TreeNode';
+import { TreeNode, TreeNodeType } from '@/types/TreeNode';
 
 defineComponent({
   name: 'FormNodeTree',
