@@ -29,7 +29,22 @@ function closeModal() {
   isModalOpened.value = false;
 }
 
+function isJson(json: string) {
+  try {
+    JSON.parse(json);
+  } catch (e) {
+    return false;
+  }
+
+  return true;
+}
+
 function generateForm(newFormJson: string) {
+  if (!isJson(newFormJson)) {
+    alert('Невалидный JSON');
+    return;
+  }
+
   formJson.value = newFormJson;
   openModal();
 }
