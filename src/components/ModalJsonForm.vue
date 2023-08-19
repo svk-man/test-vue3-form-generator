@@ -112,9 +112,7 @@ provide('formTreeModel', {
 
 function closeModal() {
   emit('closeModal');
-  Object.entries(formTreeModel.value).forEach((pair) => {
-    console.log(pair);
-  });
+  alert(JSON.stringify(formTreeModel.value));
 }
 </script>
 
