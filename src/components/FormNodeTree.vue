@@ -54,6 +54,7 @@ defineProps({
   node: Object as PropType<TreeNode>,
 });
 
+// TODO: remove any
 const { updateFormTreeModel }: any = inject('formTreeModel');
 
 function changeFormTreeModel(event: Event) {

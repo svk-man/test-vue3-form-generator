@@ -38,6 +38,30 @@ const props = defineProps({
   },
 });
 
+function getTreeNode(formJson: [], node: TreeNode) {
+  const copyNode = copyTreeNode(node);
+
+  formJson.forEach((formJsonItem: FormJsonItem) => {
+    if (formJsonItem.parent !== null && formJsonItem.parent === copyNode.code) {
+      const childNode: TreeNode = {
+        type: formJsonItem.type as TreeNodeType,
+        code: formJsonItem.code,
+        listdata: formJsonItem.listdata,
+        value: formJsonItem.value,
+        children: [],
+      };
+
+      if (formJsonItem.type === TreeNodeType.Container) {
+        copyNode.children.push(getTreeNode(formJson, childNode));
+      } else {
+        copyNode.children.push(childNode);
+      }
+    }
+  });
+
+  return copyNode;
+}
+
 const formTree = computed((): TreeNode => {
   if (!props.formJson) {
     return copyTreeNode(defaultTreeNode);
@@ -49,33 +73,7 @@ const formTree = computed((): TreeNode => {
     return copyTreeNode(defaultTreeNode);
   }
 
-  function getTreeNode(node: TreeNode) {
-    const copyNode = copyTreeNode(node);
-
-    formJson.forEach((formJsonItem: FormJsonItem) => {
-      if (formJsonItem.parent !== null && formJsonItem.parent === copyNode.code) {
-        const childNode: TreeNode = {
-          type: formJsonItem.type as TreeNodeType,
-          code: formJsonItem.code,
-          listdata: formJsonItem.listdata,
-          value: formJsonItem.value,
-          children: [],
-        };
-
-        if (formJsonItem.type === TreeNodeType.Container) {
-          copyNode.children.push(getTreeNode(childNode));
-        } else {
-          copyNode.children.push(childNode);
-        }
-      }
-    });
-
-    return copyNode;
-  }
-
-  const tree: TreeNode = getTreeNode(copyTreeNode(defaultTreeNode));
-
-  return tree;
+  return getTreeNode(formJson, copyTreeNode(defaultTreeNode));
 });
 
 const getFormTreeModel = computed((): { [key: string]: string; } => {
