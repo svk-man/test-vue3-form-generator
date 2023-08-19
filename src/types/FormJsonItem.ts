@@ -2,7 +2,7 @@ import ListDataItem from './ListDataItem';
 import { TreeNodeType } from './TreeNode';
 
 type FormJsonItem = {
-  type: TreeNodeType.Container | TreeNodeType.Datepicker | TreeNodeType.Input | TreeNodeType.List,
+  type: TreeNodeType,
   code: string,
   parent: string,
   listdata: ListDataItem[],

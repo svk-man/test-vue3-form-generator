@@ -8,7 +8,7 @@ export enum TreeNodeType {
 }
 
 export type TreeNode = {
-  type: TreeNodeType.Container | TreeNodeType.Input | TreeNodeType.Datepicker | TreeNodeType.List,
+  type: TreeNodeType,
   code: string,
   listdata: ListDataItem[],
   value: string | null,
